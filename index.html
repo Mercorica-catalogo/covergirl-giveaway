@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoverGirl LATAM - Registro de Sorteo</title>
+    <!-- Tipografía elegante similar a la marca -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --brand-black: #000000;
+            --brand-white: #ffffff;
+            --brand-pink: #e0a9b6; /* Tono rosa sutil cosmético */
+            --gray-light: #f4f4f4;
+            --text-dark: #222222;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--brand-white);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Encabezado / Logo */
+        header {
+            background-color: var(--brand-black);
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: var(--brand-white);
+            font-weight: 900;
+            letter-spacing: 4px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+        }
+
+        /* Contenedor Principal */
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .hero-text {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hero-text h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .hero-text p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Formulario Estilizado */
+        form {
+            background-color: var(--gray-light);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            background-color: var(--brand-white);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--brand-black);
+        }
+
+        input[type="file"] {
+            background-color: transparent;
+            border: 2px dashed #bbb;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        /* Botón de Envío */
+        button {
+            width: 100%;
+            background-color: var(--brand-black);
+            color: var(--brand-white);
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #333333;
+        }
+
+        button:disabled {
+            background-color: #999999;
+            cursor: not-allowed;
+        }
+
+        /* Mensajes de estado */
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 4px;
+            display: none;
+        }
+        .success { background-color: #d4edda; color: #155724; display: block; }
+        .error { background-color: #f8d7da; color: #721c24; display: block; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+            form {
+                padding: 20px;
+            }
+            .hero-text h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>COVERGIRL</h1>
+    </header>
+
+    <div class="container">
+        <div class="hero-text">
+            <h2>Registra tu Factura</h2>
+            <p>Sube tus datos, adjunta la foto de tu factura de compra y participa en nuestro gran sorteo.</p>
+        </div>
+
+        <!-- Formulario web -->
+        <form id="landingForm">
+            <div class="form-group">
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Ej. María Clara Duque">
+            </div>
+
+            <div class="form-group">
+                <label for="correo">Correo Electrónico</label>
+                <input type="email" id="correo" name="correo" required placeholder="ejemplo@correo.com">
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Teléfono / WhatsApp</label>
+                <input type="tel" id="telefono" name="telefono" required placeholder="Ej. +506 8888-8888">
+            </div>
+
+            <div class="form-group">
+                <label for="facturaNum">Número de Factura</label>
+                <input type="text" id="facturaNum" name="facturaNum" required placeholder="Ej. FACT-12345">
+            </div>
+
+            <div class="form-group">
+                <label for="fotoFactura">Foto de la Factura (Imagen/PDF)</label>
+                <input type="file" id="fotoFactura" name="fotoFactura" accept="image/*,application/pdf" required>
+            </div>
+
+            <button type="submit" id="btnEnviar">Enviar Registro</button>
+            <div id="statusMessage" class="message"></div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('landingForm');
+        const btnEnviar = document.getElementById('btnEnviar');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // URL DE TU GOOGLE APPS SCRIPT (Paso 2)
+        const scriptURL = 'TU_URL_DE_GOOGLE_APPS_SCRIPT';
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            btnEnviar.disabled = true;
+            statusMessage.textContent = "Procesando registro y subiendo imagen... Por favor espera.";
+            statusMessage.className = "message success"; // estilo temporal de espera
+
+            const fileInput = document.getElementById('fotoFactura');
+            const file = fileInput.files[0];
+            
+            // Leemos el archivo para convertirlo a Base64 antes de enviarlo a Google Sheets
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            
+            reader.onload = function () {
+                const rawLog = reader.result.split(',')[1]; // Extrae solo el contenido base64
+                
+                // Preparamos los datos del formulario
+                const formData = {
+                    nombre: document.getElementById('nombre').value,
+                    correo: document.getElementById('correo').value,
+                    telefono: document.getElementById('telefono').value,
+                    facturaNum: document.getElementById('facturaNum').value,
+                    filename: file.name,
+                    mimeType: file.type,
+                    fileData: rawLog
+                };
+
+                // Enviamos los datos por POST mediante Fetch API
+                fetch(scriptURL, {
+                    method: 'POST',
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(res => {
+                    if(res.result === 'success') {
+                        statusMessage.textContent = "¡Registro exitoso! Ya estás participando.";
+                        statusMessage.className = "message success";
+                        form.reset();
+                    } else {
+                        throw new Error(res.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    statusMessage.textContent = "Hubo un error al procesar el registro. Inténtalo de nuevo.";
+                    statusMessage.className = "message error";
+                })
+                .finally(() => {
+                    btnEnviar.disabled = false;
+                });
+            };
+        });
+    </script>
+</body>
+</html>
